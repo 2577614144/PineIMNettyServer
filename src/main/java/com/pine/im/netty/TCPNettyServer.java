@@ -37,6 +37,8 @@ public class TCPNettyServer {
 
     @Autowired
     private LoginAuthoHandler loginAuthoHandler;
+    @Autowired
+    private HeartBeatHandler heartBeatHandler;
 
     public ChannelFuture startServer(String hostname, int port) throws Exception {
         //boss线程监听端口，worker线程负责数据读写
@@ -68,6 +70,7 @@ public class TCPNettyServer {
                     pipeline.addLast(new ProtobufEncoder());
 //                    pipeline.addLast(new LoginAuthoHandler());
                     pipeline.addLast(loginAuthoHandler);
+                    pipeline.addLast(heartBeatHandler);
                     //处理类
                     pipeline.addLast(new ServerHandler());
                 }
